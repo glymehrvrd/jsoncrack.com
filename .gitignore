@@ -42,3 +42,4 @@ npm-debug.log*
 .sentryclirc
 
 /src/migration
+/.history
