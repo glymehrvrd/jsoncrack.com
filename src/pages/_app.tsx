@@ -1,7 +1,6 @@
 import React from "react";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-import { DM_Sans } from "next/font/google";
 import Head from "next/head";
 import { MantineProvider, createTheme } from "@mantine/core";
 import "@mantine/core/styles.css";
@@ -11,16 +10,11 @@ import GlobalStyle from "src/constants/globalStyle";
 import { lightTheme } from "src/constants/theme";
 import { Loading } from "src/layout/Loading";
 
-const dmSans = DM_Sans({
-  subsets: ["latin-ext"],
-});
-
 const theme = createTheme({
   autoContrast: true,
   fontSmoothing: false,
   respectReducedMotion: true,
   cursorType: "pointer",
-  fontFamily: dmSans.style.fontFamily,
   defaultGradient: {
     from: "#625BF6",
     to: "#362EF3",

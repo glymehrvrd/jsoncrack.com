@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, Flex } from "@mantine/core";
 import { CgChevronDown } from "react-icons/cg";
 import { SiJsonwebtokens } from "react-icons/si";
-import { VscSearchFuzzy, VscJson, VscGroupByRefType } from "react-icons/vsc";
+import { VscSearchFuzzy, VscJson } from "react-icons/vsc";
 import useModal from "src/store/useModal";
 import * as Styles from "./styles";
 

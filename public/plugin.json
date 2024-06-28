@@ -1,0 +1,28 @@
+{
+	"main": "index.html",
+	"logo": "logo.jpg",
+	"features": [
+	  {
+		"code": "main-json",
+		"explain": "Json 脑图查看",
+		"cmds": [
+		  "Json"
+		]
+	  },
+	  {
+		"code": "input-json",
+		"explain": "Json 脑图查看",
+		"cmds": [
+		  {
+			"type": "regex",
+			"label": "Json",
+			"match": "/^\\s*(\\{[\\s\\S]*\\}|\\[[\\s\\S]*\\])\\s*$/",
+			"minLength": 2
+		  }
+		]
+	  }
+	],
+	"pluginSetting": {
+	  "single": false
+	}
+  }

@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useMantineColorScheme } from "@mantine/core";
 import styled, { ThemeProvider } from "styled-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { metaDescription } from "src/constants/landing";
 import { darkTheme, lightTheme } from "src/constants/theme";
 import { Editor } from "src/containers/Editor";
 import { BottomBar } from "src/containers/Editor/BottomBar";
@@ -14,7 +13,6 @@ import useConfig from "src/store/useConfig";
 import useFile from "src/store/useFile";
 
 const ModalController = dynamic(() => import("src/layout/ModalController"));
-const ExternalMode = dynamic(() => import("src/layout/ExternalMode"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +42,7 @@ const EditorPage = () => {
   const { query, isReady } = useRouter();
   const { setColorScheme } = useMantineColorScheme();
   const checkEditorSession = useFile(state => state.checkEditorSession);
+  const setContents = useFile(state => state.setContents);
   const darkmodeEnabled = useConfig(state => state.darkmodeEnabled);
 
   React.useEffect(() => {
@@ -54,19 +53,27 @@ const EditorPage = () => {
     setColorScheme(darkmodeEnabled ? "dark" : "light");
   }, [darkmodeEnabled, setColorScheme]);
 
+  React.useEffect(() => {
+    window.utools?.onPluginEnter(({ code, payload }) => {
+      const code_items = code.split("-");
+      if (code_items[0] !== "input") {
+        return;
+      }
+      if (!payload) {
+        return;
+      }
+      setContents({ contents: payload });
+    });
+  });
+
   return (
     <>
       <Head>
         <title>Editor | JSON Crack</title>
-        <meta name="description" content={metaDescription} key="description" />
-        <meta property="og:description" content={metaDescription} key="ogdescription" />
-        <meta name="twitter:description" content={metaDescription} key="twdescription" />{" "}
         <link rel="canonical" href="https://jsoncrack.com/editor" />
       </Head>
-      <body>hello world</body>
-      {/* <ThemeProvider theme={darkmodeEnabled ? darkTheme : lightTheme}>
+      <ThemeProvider theme={darkmodeEnabled ? darkTheme : lightTheme}>
         <QueryClientProvider client={queryClient}>
-          <ExternalMode />
           <ModalController />
           <StyledEditorWrapper>
             <StyledPageWrapper>
@@ -78,7 +85,7 @@ const EditorPage = () => {
             <BottomBar />
           </StyledEditorWrapper>
         </QueryClientProvider>
-      </ThemeProvider> */}
+      </ThemeProvider>
     </>
   );
 };
