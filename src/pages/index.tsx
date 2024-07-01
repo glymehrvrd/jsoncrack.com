@@ -9,6 +9,7 @@ import { darkTheme, lightTheme } from "src/constants/theme";
 import { Editor } from "src/containers/Editor";
 import { BottomBar } from "src/containers/Editor/BottomBar";
 import { Toolbar } from "src/containers/Toolbar";
+import useGraph from "src/modules/GraphView/stores/useGraph";
 import useConfig from "src/store/useConfig";
 import useFile from "src/store/useFile";
 
@@ -44,6 +45,7 @@ const EditorPage = () => {
   const checkEditorSession = useFile(state => state.checkEditorSession);
   const setContents = useFile(state => state.setContents);
   const darkmodeEnabled = useConfig(state => state.darkmodeEnabled);
+  const toggleFullscreen = useGraph(state => state.toggleFullscreen);
 
   React.useEffect(() => {
     if (isReady) checkEditorSession(query?.json);
@@ -63,6 +65,7 @@ const EditorPage = () => {
         return;
       }
       setContents({ contents: payload });
+      toggleFullscreen(true);
     });
   });
 
