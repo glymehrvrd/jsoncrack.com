@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { LoadingOverlay, Dialog, Group, Button, Text } from "@mantine/core";
-import { useSessionStorage } from "@mantine/hooks";
+import React from "react";
+import { LoadingOverlay } from "@mantine/core";
 import styled from "styled-components";
 import debounce from "lodash.debounce";
 import { Space } from "react-zoomable-ui";
@@ -140,18 +139,6 @@ export const GraphView = ({ isWidget = false }: GraphProps) => {
   const loading = useGraph(state => state.loading);
   const gesturesEnabled = useConfig(state => state.gesturesEnabled);
   const rulersEnabled = useConfig(state => state.rulersEnabled);
-  const nodeCount = useGraph(state => state.nodes.length);
-  const [dialogVisible, setDialogVisible] = React.useState(false);
-  const [isDialogClosed, setDialogClosed] = useSessionStorage({
-    key: "graph-size-dialog",
-    defaultValue: false,
-  });
-
-  useEffect(() => {
-    if (nodeCount > 100 && !isDialogClosed) {
-      setDialogVisible(true);
-    }
-  }, [isDialogClosed, nodeCount, setDialogVisible]);
 
   const callback = React.useCallback(() => {
     const canvas = document.querySelector(".jsoncrack-canvas") as HTMLDivElement | null;
@@ -195,36 +182,6 @@ export const GraphView = ({ isWidget = false }: GraphProps) => {
         >
           <GraphCanvas isWidget={isWidget} />
         </Space>
-        <Dialog
-          opened={dialogVisible}
-          size="lg"
-          radius="md"
-          withCloseButton
-          position={{ right: 5, bottom: 30 }}
-          onClose={() => {
-            setDialogVisible(false);
-            setDialogClosed(true);
-          }}
-        >
-          <Text size="sm">
-            You can reduce size of the graph by 50% with the premium version and make it simpler to
-            understand.
-          </Text>
-          <Group justify="right" mt="xs">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setDialogVisible(false);
-                setDialogClosed(true);
-              }}
-            >
-              Close
-            </Button>
-            <Button component="a" variant="gradient" href="/#pricing" target="_blank">
-              Explore
-            </Button>
-          </Group>
-        </Dialog>
       </StyledEditorWrapper>
     </>
   );
